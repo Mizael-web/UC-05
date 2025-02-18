@@ -32,17 +32,17 @@ app.get('/produto', (requisicao, resposta) => {
         return resposta.status(200).json(
           {
             msg:"Produto encontrado com sucesso"
-          });
+          })
         
-  }
-  resposta.status(200).json(bancoDados);    
+      }
+  resposta.status(200).json(bancoDados)   
   } catch (error) {
     resposta.status(500).json(
       {
         msg:"Erro ao buscar produto",
         erro:error.message// mostra a mensagem do erro
       })    
-  }  
+          }  
 });
 
 
@@ -81,103 +81,215 @@ app.post('/produto', (requisicao, resposta) => {
         erro:error.message// mostra a mensagem do erro
       });  
       }  
-})
+});
 
-// atuallizar o dados
+
+
+// atualizar o dados
+
+// app.put('/produto/:id', (requisicao, resposta) => {
+//   try {
+//     // localhost:3010/produtos/1
+//     const  id = requisicao.params.id;
+//     const {novoNome, novoPreco} = requisicao.body;
+//     if (!id){
+//       return resposta.status(404).json (
+//         {
+//           mensagem: " Informe o parametro"
+//         })       
+//       }
+//     const produto = bancoDados.find(elemento => elemento.id === id)
+//     if (!produto)
+//         {
+//          return resposta.status(404).json(
+//           {
+//             mensagem:" Produto não encontrado"
+//           })           
+         
+//         produto.nome = novoNome || produto.nome
+//         produto.preco = novoPreco || produto.preco
+//       }
+//       resposta.status(200).json (
+//         {
+//           msg:" Produto atualizado com sucesso"
+//         });      
+      
+   
+//    } catch (error) {
+//     resposta.status(500).json(
+//      {
+//        msg:"Erro ao editar produto",
+//          erro:error.message// mostra a mensagem do erro
+//         });        
+//    }
+// }) ;
+
 
 app.put('/produto/:id', (requisicao, resposta) => {
   try {
-    // localhost:300/produtos/1
-    const  id = requisicao.params.id;
-    const {novoNome, novoPreco} = requisicao.body;
-    if (!id){
-      return resposta.status(404).json (
-        {
-          mensagem: " Informe o parametro"
-        });        
-      }
-    const produto = bancoDados.find(elemento => elemento.id === id)
-    if (!produto)
-        {
-         return resposta.status(404).json(
-          {
-            mensagem:" Produto encontrado"
-          });              
-         
-        produto.nome = novoNome || produto.nome
-        produto.preco = novoPreco || produto.preco
-      }
-      resposta.status(200).json (
-        {
-          msg:" Produto atualizado com sucesso"
-        });      
-      
-   
-   } catch (error) {
-    resposta.status(500).json(
-     {
-       msg:"Erro ao editar produto",
-         erro:error.message// mostra a mensagem do erro
-        });        
-   }
-}) 
-    
+    const id = parseInt(requisicao.params.id); // Converte ID para número
+    const { novoNome, novoPreco } = requisicao.body;
+
+    if (isNaN(id)) {
+      return resposta.status(400).json({
+        mensagem: "ID inválido. Informe um número válido."
+      });
+    }
+
+    const produto = bancoDados.find(elemento => elemento.id === id);
+
+    if (!produto) {
+      return resposta.status(404).json({
+        mensagem: "Produto não encontrado."
+      });
+    }
+
+    // Atualiza os campos se forem fornecidos
+    if (novoNome) produto.nome = novoNome;
+    if (novoPreco) produto.preco = novoPreco;
+
+    return resposta.status(200).json({
+      mensagem: "Produto atualizado com sucesso",
+      produtoAtualizado: produto
+    });
+
+  } catch (error) {
+    return resposta.status(500).json({
+      mensagem: "Erro ao editar produto",
+      erro: error.message
+    });
+  }
+});
 
 
 // deletar dados
 
+// app.delete('/produto/:id', (requisicao, resposta) => {
+//   try {
+//     const id = requisicao.params.id
+//     const index = bancoDados.findIndex(elemento => elemento.id === id)
+//     if ( index === -1){
+//       return resposta.status(404).json (
+//         {
+//           mensagem: " produto não encontrado!"
+//         })
+//     }
+//     bancoDados.splice(index, 1)
+//     resposta.status(200).json (
+//       {
+//         mensagem:" Produto deletado com sucesso!"
+
+//       });   
+//   } catch (error) {
+//     resposta.status(500).json(
+//       {
+//         msg:"Erro ao deletar produto",
+//           erro:error.message// mostra a mensagem do erro   
+//         }) ;   
+//       }  
+// });
+
+
+
+// deletar dados
 app.delete('/produto/:id', (requisicao, resposta) => {
   try {
-    const id = requisicao.params.id
-    const index = bancoDados.findIndex(elemento => elemento.id === id)
-    if ( index === -1){
-      return resposta.status(404).json (
-        {
-          mensagem: " produto não encontrado!"
-        })
+    // Converte o ID para inteiro
+    const id = parseInt(requisicao.params.id, 10);
+    
+    // Verifica se o ID é válido
+    if (isNaN(id)) {
+      return resposta.status(400).json({
+        mensagem: "ID inválido. Informe um número válido."
+      });
     }
-    bancoDados.splice(index, 1)
-    resposta.status(200).json (
-      {
-        mensagem:" Produto deletado com sucesso!"
 
-      });   
+    const index = bancoDados.findIndex(elemento => elemento.id === id);
+
+    if (index === -1) {
+      return resposta.status(404).json({
+        mensagem: "Produto não encontrado!"
+      });
+    }
+
+    bancoDados.splice(index, 1);
+
+    resposta.status(200).json({
+      mensagem: "Produto deletado com sucesso!"
+    });
+    
   } catch (error) {
-    resposta.status(500).json(
-      {
-        msg:"Erro ao deletar produto",
-          erro:error.message// mostra a mensagem do erro   
-        }) ;   
-      }  
-    })
+    resposta.status(500).json({
+      msg: "Erro ao deletar produto",
+      erro: error.message // mostra a mensagem do erro
+    });
+  }
+});
+
+
+
+//LISTA OS NOVOS PRODUTOS
+
+// app.get('/produto', (requisicao, resposta) => {
+//   try {
+//     const id = requisicao.params.id
+//     const produto =bancoDados.find(elemento => elemento.id === id)
+//     if (!prodtudo){
+//       return resposta.status(404).json
+//     } (
+//       {
+//         mensagem: " Produto não encontrado!"
+//       })
+//       resposta.status(200).json(produto)
+    
+//   } catch (error) {
+//     resposta.st(500).json(
+//       {
+//         mensagem: " Erro ao buscar produto",
+//         erro:error.message
+//       }
+//     );
+//     }
+   
+// });  
+  
 
 app.get('/produto', (requisicao, resposta) => {
   try {
-    const id = requisicao.params.id
-    const produto =bancoDados.find(elemento => elemento.id === id)
-    if (!prodtudo){
-      return resposta.status(404).json
-    } (
-      {
-        mensagem: " Produto não encontrado!"
-      })
-      resposta.status(200).json(produto)
-    
-  } catch (error) {
-    resposta.st(500).json(
-      {
-        mensgaem: " Erro ao buscar produto",
-        erro:error.message
-      }
-    );
+    // Converte o ID para inteiro
+    const id = parseInt(requisicao.params.id, 10);
+
+    // Verifica se o ID é válido
+    if (isNaN(id)) {
+      return resposta.status(400).json({
+        mensagem: "ID inválido. Informe um número válido."
+      });
     }
-   
-  })   
-  
+
+    // Busca o produto com o ID
+    const produto = bancoDados.find(elemento => elemento.id === id);
+
+    if (!produto) {
+      return resposta.status(404).json({
+        mensagem: "Produto não encontrado!"
+      });
+    }
+
+    // Retorna o produto encontrado
+    resposta.status(200).json(produto);
+
+  } catch (error) {
+    resposta.status(500).json({
+      mensagem: "Erro ao buscar produto",
+      erro: error.message
+    });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
-})
+});
 
 
 

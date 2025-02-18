@@ -1,14 +1,37 @@
 ### Rota para pegar os produtos
-GET http://localhost:3001/produto
+GET http://localhost:3010/produto
 
 ### fechando a requicisao
 
 ### Rota criando o produto
-POST http://localhost:3001/produto
+POST http://localhost:3010/produto
 Content-Type: application/json
 
 {
-    "id":1,
-    "nome":"GTX 4090 24gb",
-    "preco":14450
+    "id": 4,
+    "nome":" notebook del  ' ",
+    "preco": 5000
 }
+
+###
+
+### rota da atualizalçao
+
+PUT http://localhost:3010/produto/2
+Header: Content-Type: application.json
+corpo:
+
+{
+    
+    "nome": "GTX 5020 32'",
+    "preco": 1650
+}  
+
+###
+
+### rota da exclusão
+
+DELETE  http://localhost:3010/produto/2
+
+
+###
