@@ -8,30 +8,41 @@ POST http://localhost:3010/produto
 Content-Type: application/json
 
 {
-    "id": 4,
-    "nome":" notebook del  ' ",
-    "preco": 5000
+    "id": "2",
+    "nome":" placa GTX 32'",
+    "preco": 1300
+}
+
+
+### rota de atualização
+PUT http://localhost:3010/produto/2
+Content-Type: application/json
+
+{
+    "novoNome": "GTX 3080 16 gb",
+    "novoPreco": 12000
 }
 
 ###
 
-### rota da atualizalçao
+### delete excluir protudto
 
-PUT http://localhost:3010/produto/2
-Header: Content-Type: application.json
-corpo:
+DELETE http://localhost:3010/produto/2
+Content-Type: application/json
 
-{
-    
-    "nome": "GTX 5020 32'",
-    "preco": 1650
-}  
 
 ###
 
-### rota da exclusão
+### rota de deletar todos
 
-DELETE  http://localhost:3010/produto/2
+DELETE http://localhost:3010/produto
+Content-Type: application/json
 
+###
+
+### busca apos delete
+
+GET http://localhost:3010/localhost:3010/produto
+Content-Type: : application/json
 
 ###
