@@ -1,7 +1,7 @@
 const {pool}= require ("../../../modules/aluno")
 
 
-class  Aluno {
+class  AlunoModel {
 
    static async criar(matricula, nome, email, senha){
        const dados = [matricula, nome, email, senha]
@@ -30,16 +30,18 @@ class  Aluno {
     return aluno.rows
 
    }
-   static excluirTodos(){
-      const consulta = `delete *from aluno`
-      await pool.query(consulta)
 
-   }
    static excluirPorID(matricula){
    const dados = [matricula]
    const consulta = `delete * from aluno where matricula = $1`
    await pool.query(consulta, dados)
  
    }
+
+   static excluirTodos(){
+      const consulta = `delete *from aluno`
+      await pool.query(consulta)
+
+   }
 }
- moudele.express = Aluno
+ module.exports = AlunoModel
