@@ -1,0 +1,6 @@
+### Api via cep
+
+get viacep.com.br/ws/01001000/json/
+Content-Type: : application/json
+
+###
