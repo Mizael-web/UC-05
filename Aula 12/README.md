@@ -227,9 +227,9 @@ src/
 
 ---
 
-## 🧑‍💻 Autor
+## 🧑‍💻 Observação
 
-Desenvolvido por [Seu Nome Aqui] - para fins acadêmicos e profissionais  
+Desenvolvido para fins acadêmicos e profissionais  
 Projeto de sistema escolar completo com foco em organização e boas práticas
 
 ---
