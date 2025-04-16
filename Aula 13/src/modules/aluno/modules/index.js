@@ -1,43 +1,71 @@
-const { pool } = require('../../../config/database')
+const { DataTypes } = require('sequelize');
+const sequelize = require ("../../../config/configDb");
 
-class AlunoModel {
-    static async criar(matricula, nome, email, senha) {
-        const dados = [matricula, nome, email, senha]
-        const consulta = `insert into aluno(matricula, nome, email, senha) values ($1, $2, $3, $4) returning *`
-        const novoAluno = await pool.query(consulta, dados)
-        return novoAluno.rows
-    }
+const Aluno = sequelize.define(
+  'Aluno',
+  {
+    // Model attributes are defined here
+    matricula: {
 
-    static async editar(matricula, nome, email, senha) {
-        const dados = [matricula, nome, email, senha]
-        const consulta = `update aluno set nome = $2, email = $3, senha = $4 where matricula = $1 returning *`
-        const alunoAtualizado = await pool.query(consulta, dados)
-        return alunoAtualizado.rows
-    }
+      type: DataTypes.CHAR(5),
+      allowNull: false,
+      primaryKey:true
+    },
 
-    static async listar() {
-        const consulta = `select * from aluno`
-        const alunos = await pool.query(consulta)
-        return alunos.rows
-    }
 
-    static async listarPorMatricula(matricula) {
-        const dados = [matricula]
-        const consulta = `select * from aluno where matricula = $1`
-        const aluno = await pool.query(consulta, dados)
-        return aluno.rows
-    }
+    nome: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    }, 
 
-    static async excluirPorMatricula(matricula) {
-        const dados = [matricula]
-        const consulta = `delete from aluno where matricula = $1 returning *`
-        await pool.query(consulta, dados)
-    }
+     email: {
+        type:DataTypes.STRING (60),
+        allowNull:false,
+        unique: true,
+        validate: {
+            ismail:{
+                msg:' Forneça um e-mail valido!'
+            },
+            len:{
+                 args: [10, 60],
+                 msg: 'O e-mail deve ter no minimo 10 caracteres e no maximo 60!'
 
-    static async excluirTodos() {
-        const consulta = `delete from aluno`
-        await pool.query(consulta)
-    }
-}
+            }
+        }
+     },
 
-module.exports = AlunoModel
+     senha: {
+       type: DataTypes.STRING(10),
+       allowNull:false,
+       validate:{
+        len: {
+            args:[10],
+            msg: 'A senha deve ter 10 cacteres!'
+        },
+        is: { // criar no regex         
+
+        
+        }
+
+        }
+       },
+
+       turma_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references:{
+
+            model: turma
+        },
+       
+     },
+     
+        tableName: 'aluno',
+        createdAt:'criado em',
+        updatedAt:'atualizado em'
+     },    
+     
+
+);
+
+module.export = Aluno;

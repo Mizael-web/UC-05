@@ -1,0 +1,44 @@
+### Criar Endereço
+POST http://localhost:3000/endereco
+Content-Type: application/json
+
+{
+  "matricula": "123456",
+  "cep": "70790125",
+  "numero": "123",
+  "ponto_referencia": "Próximo à praça central"
+}
+
+###
+
+### Editar Endereço
+PUT http://localhost:3000/endereco/123456
+Content-Type: application/json
+
+{
+  "cep": "59000000",
+  "numero": "456",
+  "ponto_referencia": "Próximo ao supermercado"
+}
+
+###
+
+### Listar Endereço por CEP
+GET http://localhost:3000/endereco/cep/70790125
+
+###
+
+### Listar Endereço por Cidade
+GET http://localhost:3000/endereco/cidade/Brasília
+
+###
+
+### Listar Todos os Endereços
+GET http://localhost:3000/endereco
+
+###
+
+### Listar Endereço de um Aluno por Matrícula
+GET http://localhost:3000/endereco/123456
+
+###

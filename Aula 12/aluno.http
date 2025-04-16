@@ -1,0 +1,43 @@
+### Criar Aluno
+POST http://localhost:3000/aluno
+Content-Type: application/json
+
+{
+  "matricula": "123456",
+  "nome": "Maria Silva",
+  "email": "maria.silva@example.com",
+  "senha": "senha123"
+}
+
+###
+
+### Editar Aluno
+PUT http://localhost:3000/alunos/123456
+Content-Type: application/json
+
+{
+  "nome": "João Silva Atualizado",
+  "email": "joao.silva.atualizado@example.com",
+  "senha": "novaSenha123"
+}
+
+###
+
+### Listar Todos os Alunos
+GET http://localhost:3000/aluno
+###
+
+### Listar Aluno por Matrícula
+GET http://localhost:3000/alunos/123456
+
+###
+
+### Excluir Aluno por Matrícula
+DELETE http://localhost:3000/alunos/123456
+
+###
+
+### Excluir Todos os Alunos
+DELETE http://localhost:3000/alunos
+
+###
